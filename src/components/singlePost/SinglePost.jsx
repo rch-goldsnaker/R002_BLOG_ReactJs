@@ -4,16 +4,18 @@ import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
 import { Context } from "../../context/Context";
 import "./singlePost.css";
+import { Image } from 'cloudinary-react';
 
 export default function SinglePost() {
   const location = useLocation();
   const path = location.pathname.split("/")[2];
   const [post, setPost] = useState({});
-  const PF = "http://localhost:5000/images/";
+  /*const PF = "http://localhost:5000/images/";*/
   const { user } = useContext(Context);
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [updateMode, setUpdateMode] = useState(false);
+  const [publicID, setpublicID] = useState(null);
 
   useEffect(() => {
     const getPost = async () => {
@@ -21,6 +23,7 @@ export default function SinglePost() {
       setPost(res.data);
       setTitle(res.data.title);
       setDesc(res.data.desc);
+      setpublicID(res.data.photo);
     };
     getPost();
   }, [path]);
@@ -44,13 +47,14 @@ export default function SinglePost() {
       setUpdateMode(false)
     } catch (err) {}
   };
-
+        /*{post.photo && (
+          <img src={PF + post.photo} alt="" className="singlePostImg" />
+        )}*/
   return (
     <div className="singlePost">
       <div className="singlePostWrapper">
-        {post.photo && (
-          <img src={PF + post.photo} alt="" className="singlePostImg" />
-        )}
+        {console.log(publicID)}
+        {post.photo && <Image cloudName={"drslzgsaz"} publicId={publicID} className="singlePostImg"/>}
         {updateMode ? (
           <input
             type="text"
