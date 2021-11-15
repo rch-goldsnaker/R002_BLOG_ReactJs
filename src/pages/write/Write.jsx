@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import "./write.css";
-import axios from "axios";
+import { axiosInstance } from "../../config";
 import { Context } from "../../context/Context";
 
 export default function Write() {
@@ -30,9 +30,9 @@ export default function Write() {
 
       const UploadImage = async (base64EncodedImage) => {
         try {
-            const res = await axios.post('/upload', JSON.stringify({ data: base64EncodedImage }), {headers: {'Content-Type': 'application/json'}});
+            const res = await axiosInstance.post('/upload', JSON.stringify({ data: base64EncodedImage }), {headers: {'Content-Type': 'application/json'}});
             newPost.photo = res.data.public_id;
-            const res3 = await axios.post("/posts", newPost);
+            const res3 = await axiosInstance.post("/posts", newPost);
             window.location.replace("/post/" + res3.data._id);
         } catch (err) {
             console.error(err);
@@ -41,7 +41,7 @@ export default function Write() {
 
     } else {
     try {
-      const res2 = await axios.post("/posts", newPost);
+      const res2 = await axiosInstance.post("/posts", newPost);
       window.location.replace("/post/" + res2.data._id);
     } catch (err) {
       console.error(err);
