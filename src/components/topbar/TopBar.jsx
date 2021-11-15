@@ -2,10 +2,11 @@ import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { Context } from "../../context/Context";
 import "./topbar.css";
+import { Image } from 'cloudinary-react';
 
 export default function TopBar() {
   const { user, dispatch } = useContext(Context);
-  const PF = "http://localhost:5000/images/"
+  /*const PF = "http://localhost:5000/images/"*/
 
   const handleLogout = () => {
     dispatch({ type: "LOGOUT" });
@@ -48,7 +49,7 @@ export default function TopBar() {
       <div className="topRight">
         {user ? (
           <Link to="/settings">
-            <img className="topImg" src={PF+user.profilePic} alt="" />
+            <Image cloudName={"drslzgsaz"} publicId={user.profilePic} className="topImg"/>
           </Link>
         ) : (
           <ul className="topList">

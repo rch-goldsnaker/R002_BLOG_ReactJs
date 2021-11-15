@@ -53,7 +53,6 @@ export default function SinglePost() {
   return (
     <div className="singlePost">
       <div className="singlePostWrapper">
-        {console.log(publicID)}
         {post.photo && <Image cloudName={"drslzgsaz"} publicId={publicID} className="singlePostImg"/>}
         {updateMode ? (
           <input

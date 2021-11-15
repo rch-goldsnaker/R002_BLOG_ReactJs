@@ -3,6 +3,7 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import { useContext, useState } from "react";
 import { Context } from "../../context/Context";
 import axios from "axios";
+import { Image } from 'cloudinary-react';
 
 export default function Settings() {
   const [file, setFile] = useState(null);
@@ -12,7 +13,7 @@ export default function Settings() {
   const [success, setSuccess] = useState(false);
 
   const { user, dispatch } = useContext(Context);
-  const PF = "http://localhost:5000/images/"
+  /*const PF = "http://localhost:5000/images/"*/
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,18 +29,39 @@ export default function Settings() {
       const filename = Date.now() + file.name;
       data.append("name", filename);
       data.append("file", file);
-      updatedUser.profilePic = filename;
-      try {
-        await axios.post("/upload", data);
-      } catch (err) {}
-    }
+      /*updatedUser.profilePic = filename;*/
+      
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {UploadImage(reader.result);};
+      reader.onerror = () => {console.error('AHHHHHHHH!!');};
+
+      const UploadImage = async (base64EncodedImage) => {
+        try {
+            console.log(1)
+            const res = await axios.post('/upload', JSON.stringify({ data: base64EncodedImage }), {headers: {'Content-Type': 'application/json'}});
+            updatedUser.profilePic = res.data.public_id;
+            console.log(1)
+            console.log(updatedUser)
+            const res3 = await axios.put("/users/" + user._id, updatedUser);
+            console.log(updatedUser)
+            console.log(2)
+            setSuccess(true);
+            dispatch({ type: "UPDATE_SUCCESS", payload: res3.data });
+            /*window.location.replace("/users/" + res3.data._id);*/
+        } catch (err) {
+            dispatch({ type: "UPDATE_FAILURE" });
+        }
+      };
+    }else{
     try {
-      const res = await axios.put("/users/" + user._id, updatedUser);
+      const res2 = await axios.put("/users/" + user._id, updatedUser);
       setSuccess(true);
-      dispatch({ type: "UPDATE_SUCCESS", payload: res.data });
+      dispatch({ type: "UPDATE_SUCCESS", payload: res2.data });
     } catch (err) {
       dispatch({ type: "UPDATE_FAILURE" });
-    }
+    };
+    };
   };
   return (
     <div className="settings">
@@ -51,10 +73,7 @@ export default function Settings() {
         <form className="settingsForm" onSubmit={handleSubmit}>
           <label>Profile Picture</label>
           <div className="settingsPP">
-            <img
-              src={file ? URL.createObjectURL(file) : PF+user.profilePic}
-              alt=""
-            />
+            {file ? <img src={URL.createObjectURL(file)} alt=""/> : <Image cloudName={"drslzgsaz"} publicId={user.profilePic}/>}
             <label htmlFor="fileInput">
               <i className="settingsPPIcon far fa-user-circle"></i>
             </label>
