@@ -1,5 +1,7 @@
-import axios from "axios"
+//import axios from "axios";
 
-export const axiosInstance = axios.create({
-    baseURL: 'https://r003-apiblog.herokuapp.com/api/'
-});
+//const instance = axios.create({
+//    baseURL: "https://r003-apiblog.herokuapp.com/api/",
+//});
+
+//export default instance;
