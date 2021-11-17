@@ -1,9 +1,9 @@
 import "./settings.css";
 import Sidebar from "../../components/sidebar/Sidebar";
 import { useContext, useState } from "react";
-import axios from "axios";
 import { Context } from "../../context/Context";
 import { Image } from 'cloudinary-react';
+import { axiosInstance } from "../../config";
 
 export default function Settings() {
   const [file, setFile] = useState(null);
@@ -13,7 +13,6 @@ export default function Settings() {
   const [success, setSuccess] = useState(false);
 
   const { user, dispatch } = useContext(Context);
-  /*const PF = "http://localhost:5000/images/"*/
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,11 +38,11 @@ export default function Settings() {
       const UploadImage = async (base64EncodedImage) => {
         try {
             console.log(1)
-            const res = await axios.post('/upload', JSON.stringify({ data: base64EncodedImage }), {headers: {'Content-Type': 'application/json'}});
+            const res = await axiosInstance.post('/upload', JSON.stringify({ data: base64EncodedImage }), {headers: {'Content-Type': 'application/json'}});
             updatedUser.profilePic = res.data.public_id;
             console.log(1)
             console.log(updatedUser)
-            const res3 = await axios.put("/users/" + user._id, updatedUser);
+            const res3 = await axiosInstance.put("/users/" + user._id, updatedUser);
             console.log(updatedUser)
             console.log(2)
             setSuccess(true);
@@ -55,7 +54,7 @@ export default function Settings() {
       };
     }else{
     try {
-      const res2 = await axios.put("/users/" + user._id, updatedUser);
+      const res2 = await axiosInstance.put("/users/" + user._id, updatedUser);
       setSuccess(true);
       dispatch({ type: "UPDATE_SUCCESS", payload: res2.data });
     } catch (err) {

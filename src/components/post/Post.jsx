@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 import { Image } from 'cloudinary-react';
 
 export default function Post({ post }) {
-  /*const PF = "http://localhost:5000/images/";*/
-  /*{post.photo && <img className="postImg" src={PF + post.photo} alt="" />}; */
   return (
     <div className="post">
       {post.photo && <Image cloudName={"drslzgsaz"} publicId={post.photo} className="postImg"/>}
