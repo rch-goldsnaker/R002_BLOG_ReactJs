@@ -41,6 +41,7 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^3.2.3"
+    "gh-pages": "^3.2.3",
+  "homepage": "https://rch-goldsnaker.github.io/R002_BLOG_ReactJs"
   }
 }
