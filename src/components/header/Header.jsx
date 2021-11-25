@@ -4,12 +4,11 @@ export default function Header() {
   return (
     <div className="header">
       <div className="headerTitles">
-        <span className="headerTitleSm">React & Node</span>
         <span className="headerTitleLg">CriptoNoti</span>
       </div>
       <img
         className="headerImg"
-        src="https://images.pexels.com/photos/1167355/pexels-photo-1167355.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+        src="https://res.cloudinary.com/drslzgsaz/image/upload/v1637798364/dev_setups/pexels-pixabay-315788_ed16zt.jpg"
         alt=""
       />
     </div>
